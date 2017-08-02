@@ -1,0 +1,9 @@
+type file
+id devops-demo-dotnet
+authors Bob Hardister
+description devops-demo-dotnet
+files
+    *.* ==> 
+    bin ==> bin
+    images ==> images
+    styles ==> styles

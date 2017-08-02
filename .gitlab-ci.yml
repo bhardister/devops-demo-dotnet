@@ -1,0 +1,66 @@
+
+before_script:
+  - $repoName="devops-demo-dotnet";$buildRef=$CI_BUILD_REF;If ($buildRef) { $shortSha=$buildRef.Substring(0,8) };$workDir=$CI_PROJECT_DIR;$branch=$CI_BUILD_REF_NAME
+  - $runnerIp = curl -sS  http://169.254.169.254/latest/meta-data/public-ipv4 ;$instanceId = curl -sS http://169.254.169.254/latest/meta-data/instance-id
+  - Write-Host "repoName=$repoName";Write-Host "shortSha=$shortSha";Write-Host "workDir=$workDir";Write-Host "branch=$branch";Write-Host "runnerIp=$runnerIp";Write-Host "instanceId=$instanceId"
+
+variables:
+  GIT_SSL_NO_VERIFY: "true"
+
+stages: 
+  - setup
+  - build
+  - pack
+  - push 
+  - deploy
+
+setup:
+  stage: setup
+  script:
+  - ./increment-build-counter.ps1 -repoName $repoName -buildRef $buildRef
+
+webapp-build:
+  stage: build
+  script: 
+  - $slnFile = $repoName + '.sln'
+  - msbuild $slnFile /p:configuration=Release /p:platform="Any CPU" /p:RunOctoPack=false
+  artifacts:
+    untracked: true
+  only:
+  - master
+
+webapp-pack:  
+  stage: pack
+  script:
+  - $buildCounter = $BUILD_COUNTER;Write-Host ("buildCounter = $buildCounter")
+  - $version = ./get-version.ps1 -repoName $repoName -buildRef $buildRef -buildCounter $buildCounter
+  - $relNotes = "version = $version";$semVer=$version.Substring(0,$version.IndexOf('-'));Write-Host ("semVer = $semVer");Write-Host ("relNotes = $relNotes")
+  - Push-Location -Path $repoName
+  - ../.paket/paket pack output ../octo version $semVer releaseNotes $relNotes buildconfig Release buildplatform "Any CPU"
+  - Pop-Location
+  dependencies:
+  - webapp-build
+  artifacts:
+    paths:
+    - octo/
+
+webapp-push:  
+  stage: push
+  script:
+  - $fileName = (dir octo).Name
+  - Write-Host ("fileName = $fileName")
+  - $octoFeedApiValue = ./get-octofeed-apikey.ps1
+  - octo push --package octo/$fileName --replace-existing --server "http://educationpartners-octopusdeploy.eastus.cloudapp.azure.com" --apiKey $octoFeedApiValue
+  dependencies:
+  - webapp-pack
+
+webapp-deploy:  
+  stage: deploy
+  script:
+  - $buildCounter = $BUILD_COUNTER;Write-Host ("buildCounter = $buildCounter")
+  - $version = ./get-version.ps1 -repoName $repoName -buildRef $buildRef -buildCounter $buildCounter
+  - $relNotes = "version = $version";$semVer=$version.Substring(0,$version.IndexOf('-'));Write-Host ("semVer = $semVer");Write-Host ("relNotes = $relNotes")
+  - $octoFeedApiValue = ./get-octofeed-apikey.ps1
+  - octo create-release --project $repoName --package "Deploy to Integration:$semVer" --releaseNumber $semVer --deployto intg --releasenotes $relNotes --server "http://educationpartners-octopusdeploy.eastus.cloudapp.azure.com" --apiKey $octoFeedApiValue
+  dependencies:
+  - webapp-pack
