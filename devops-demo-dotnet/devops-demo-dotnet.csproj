@@ -123,9 +123,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include=".ebextensions\01-get-sshkey.config" />
-    <Content Include=".ebextensions\03-datadog.config" />
-    <Content Include=".ebextensions\02-tag-instance-with-instance-id.config" />
     <None Include="images\README" />
     <Content Include="package.cmd" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
