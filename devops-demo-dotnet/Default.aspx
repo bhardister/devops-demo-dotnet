@@ -16,12 +16,12 @@
 <body>
     <div class="textColumn">
       <h1>Congratulations!</h1>
-      <p>I'm the sandbox devops-demo-dotnet application deployed by Education Partners GitLb CI and Azure Octopus Deploy running as an Azure Web Service!</p>
+      <p>I'm the devops-demo-dotnet application/p>
     </div>
     <div class="linksColumn">
       <h2>What's Next?</h2>
       <ul>
-        <li><a href="/healthcheck">healthcheck.aspx</a></li>
+        <li><a href="/healthcheck.aspx">healthcheck.aspx</a></li>
         <li><a href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html">AWS Elastic Beanstalk overview</a></li>
         <li><a href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/concepts.html">AWS Elastic Beanstalk concepts</a></li>
         <li><a href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_nodejs_express.html">Deploy an Express Application to AWS Elastic Beanstalk</a></li>
