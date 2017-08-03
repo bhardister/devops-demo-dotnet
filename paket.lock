@@ -1,3 +1,4 @@
 NUGET
   remote: https://www.nuget.org/api/v2
+    MSBuild.Microsoft.VisualStudio.Web.targets (14.0.0.3)
     OctoPack (3.0.71)
