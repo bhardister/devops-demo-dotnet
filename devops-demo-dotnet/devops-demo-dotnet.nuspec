@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>devops-demo-dotnet</id>
+    <version>$version$</version>
+    <title>devops-demo-dotnet</title>
+    <authors>bhardister</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>SemVer-repo sha: $desc$</description>
+    <releaseNotes>$releaseNotes$</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>ApiTypeLibrary API</tags>
+  </metadata>
+  <files>
+    <file src="bin\demo-webapp.dll" target="bin"/>
+    <file src="images\**" target="images"/>
+    <file src="styles\**" target="styles"/>
+    <file src="Default.aspx"/>
+    <file src="healthcheck.aspx"/>
+    <file src="Web.config"/>
+  </files>
+</package>
