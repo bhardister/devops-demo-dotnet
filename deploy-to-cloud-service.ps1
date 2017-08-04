@@ -14,7 +14,7 @@ $file = "AwsBundle\demo-webapp.0.0." + $rev + ".zip"
 Write-S3Object -BucketName bhardister -Key $key -File $file
 Write-Host ("deploy-to-cloud-service: file $file uploaded to S3 bucket bhardister as $key")
 
-$v = "devops-demo-dotnet.0.0" + $rev
+$v = "devops-demo-dotnet.0.0." + $rev
 $result = New-EBApplicationVersion -ApplicationName 'devops-demo-dotnet' -VersionLabel $v -SourceBundle_S3Bucket 'bhardister' -SourceBundle_S3Key $key -Description 'demo' -AutoCreateApplication $false
 Write-Host ("deploy-to-cloud-service: added application version $v to devops-demo-dotnet")
 
