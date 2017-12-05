@@ -16,7 +16,7 @@
 <body>
     <div class="textColumn">
       <h1>Congratulations!</h1>
-      <p>Yo, I'm the devops-demo-dotnet application</p>
+      <p>Yo, I'm the ShipStation Octopus Test devops-demo-dotnet application</p>
     </div>
     <div class="linksColumn">
       <h2>What's Next?</h2>
